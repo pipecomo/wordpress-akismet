@@ -1,0 +1,27 @@
+#!/bin/bash
+echo -e "Please enter the link of the zip: \c"
+read URL
+echo -e "Please enter the git origin: \c"
+read GITHUBORIGINURL
+echo -e "Please enter the git origin branch to fetch: \c"
+read GITHUBORIGINBRANCH
+
+DIRS=(${URL//\// })                                                 
+LAST_PART=${DIRS[${#DIRS[@]} - 1]}
+FOLDER=(${LAST_PART//./ })
+FOLDER_NAME=${FOLDER[0]}
+export http_proxy="http://172.24.0.250:3128"
+echo "Fetching the zip file"
+wget -qO- -O tmp.zip "${URL}"  
+unzip tmp.zip && rm tmp.zip
+echo "Initializing a git repo in " $FOLDER_NAME
+cd $FOLDER_NAME
+git init && git add . && git commit -am "first initial commit"
+echo "Adding the git origin"
+git remote add origin "${GITHUBORIGINURL}" 
+git checkout -b "${GITHUBORIGINBRANCH}" 
+git pull origin "${GITHUBORIGINBRANCH}"
+git push origin "${GITHUBORIGINBRANCH}"
+#echo "Please enter the link to the github repo"
+#https://github.com/pipecomo/wordpress-akismet/archive/sprint-2.4.zip
+

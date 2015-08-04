@@ -1,0 +1,14 @@
+#!/bin/sh
+
+#echo "Please enter the link of the zip"
+string="1:2:3:4:5"
+array=(${string//:/ })
+for i in "${!array[@]}"
+do
+    echo "$i=>${array[i]}"
+done
+#mkdir -p /home/projects/
+#wget $link
+#echo "Please enter the link to the github repo"
+#https://webp.googlecode.com/files/webp-samples.zip
+
